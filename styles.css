@@ -23,6 +23,7 @@
     --space-2: 1rem;
     --space-3: 1.5rem;
     --space-4: 2rem;
+    --space-5: 2.5rem;
     --space-6: 3rem;
   
     --font-sans: "Inter", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
@@ -340,7 +341,7 @@
   
   .grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: var(--space-6);
     max-width: 1200px;
     margin: 0 auto;
@@ -519,6 +520,7 @@
       grid-template-columns: 1fr;
       gap: var(--space-4);
       text-align: center;
+      grid-template-areas: "visual" "content";
     }
     
     .hero-title {
@@ -534,16 +536,16 @@
       font-size: 2rem;
     }
     
-    .grid {
-      grid-template-columns: 1fr;
-      gap: var(--space-5);
-      max-width: 500px;
-      padding: 0 var(--space-1);
-    }
+  .grid {
+    grid-template-columns: 1fr;
+    gap: var(--space-5);
+    max-width: 620px;
+    padding: 0 var(--space-2);
+  }
     
-    .card {
-      padding: var(--space-5);
-    }
+  .card {
+    padding: var(--space-4);
+  }
     
     .card-icon {
       font-size: 2rem;
@@ -552,6 +554,10 @@
     .actions {
       justify-content: center;
     }
+    
+    /* Reorder hero blocks on mobile: visual first, then content */
+    .hero-content { grid-area: content; }
+    .hero-visual { grid-area: visual; }
     
     .site-header .container {
       flex-direction: column;
@@ -563,7 +569,7 @@
     .nav {
       flex-wrap: wrap;
       justify-content: center;
-      gap: var(--space-3);
+    gap: var(--space-2);
     }
     
     .brand {
@@ -601,5 +607,11 @@
       padding: 0.75rem 1.25rem;
       font-size: 0.9rem;
     }
+
+  .color-block {
+    height: 48px;
+    padding: 0.75rem;
+  }
+  .color-demo { max-width: 240px; }
   }
   
