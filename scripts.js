@@ -385,6 +385,18 @@
       panel.setAttribute('aria-hidden', String(!next));
       document.body.classList.toggle('designer-open', next);
     });
+
+        // Open panel when clicking links pointing to #designer-toggle
+        var openLinks = document.querySelectorAll('a[href="#designer-toggle"]');
+        openLinks.forEach(function(link){
+          link.addEventListener('click', function(e){
+            e.preventDefault();
+            fab.setAttribute('aria-expanded', 'true');
+            panel.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('designer-open');
+            try { fab.focus(); } catch (e) {}
+          });
+        });
   }
   if (closeBtn) {
     closeBtn.addEventListener('click', function(){
@@ -444,6 +456,181 @@
   }
   // Apply overrides once at load for initial theme
   applyThemeOverrides(getCurrentTheme());
+  
+  // ================= Ratio Demo =================
+  (function initRatioDemo(){
+    var p = document.getElementById('ratio-primary');
+    var s = document.getElementById('ratio-secondary');
+    var a = document.getElementById('ratio-accent');
+    if (!p || !s || !a) return;
+    var pv = document.getElementById('ratio-primary-value');
+    var sv = document.getElementById('ratio-secondary-value');
+    var av = document.getElementById('ratio-accent-value');
+    var segP = document.querySelector('.ratio-seg.primary');
+    var segS = document.querySelector('.ratio-seg.secondary');
+    var segA = document.querySelector('.ratio-seg.accent');
+    // mock elements to visually reflect ratio changes
+    var resetBtn = document.getElementById('ratio-reset');
+
+    // hero preview labels
+    var heroP = document.querySelector('.primary-demo .color-label');
+    var heroS = document.querySelector('.secondary-demo .color-label');
+    var heroA = document.querySelector('.accent-demo .color-label');
+    var mockTitle = document.querySelector('.mock-title');
+    var mockText = document.querySelector('.mock-text');
+    var mockCta = document.querySelector('.mock-cta');
+
+    function clamp(n){ return Math.max(0, Math.min(100, Math.round(n))); }
+    function normalize(changed){
+      var P = parseInt(p.value,10), S = parseInt(s.value,10), A = parseInt(a.value,10);
+      var total = P+S+A;
+      if (total === 100) return updateUI(P,S,A);
+      var restKeys = changed==='P' ? ['S','A'] : changed==='S' ? ['P','A'] : ['P','S'];
+      // Distribute delta across the two others, favor the larger bucket
+      var delta = total - 100; // positive means too much
+      var vals = {P:P,S:S,A:A};
+      var first = restKeys[0], second = restKeys[1];
+      function take(key, amount){
+        var before = vals[key];
+        vals[key] = clamp(before - amount);
+        var actual = before - vals[key];
+        return actual;
+      }
+      if (delta>0){
+        // reduce others
+        var big = vals[first] >= vals[second] ? first : second;
+        var used = take(big, delta);
+        if (used < delta) take(big===first?second:first, delta-used);
+      } else if (delta<0){
+        // increase others
+        var need = -delta;
+        var big2 = vals[first] >= vals[second] ? first : second;
+        vals[big2] = clamp(vals[big2] + need);
+      }
+      P = vals.P; S = vals.S; A = vals.A;
+      // Write back
+      p.value = P; s.value = S; a.value = A;
+      updateUI(P,S,A);
+    }
+    function updateUI(P,S,A){
+      if (pv) pv.textContent = P + '%';
+      if (sv) sv.textContent = S + '%';
+      if (av) av.textContent = A + '%';
+      if (segP) segP.style.width = P+'%';
+      if (segS) segS.style.width = S+'%';
+      if (segA) segA.style.width = A+'%';
+      // Update breakdown overlay heights
+      var bdP = document.getElementById('bd-primary');
+      var bdS = document.getElementById('bd-secondary');
+      var bdA = document.getElementById('bd-accent');
+      if (bdP) bdP.style.height = P+'%';
+      if (bdS) bdS.style.height = S+'%';
+      if (bdA) bdA.style.height = A+'%';
+      if (heroP) heroP.textContent = P + '% Primary';
+      if (heroS) heroS.textContent = S + '% Secondary';
+      if (heroA) heroA.textContent = A + '% Accent';
+      // Visually reflect ratios in the mock UI
+      if (mockTitle) {
+        var titleW = Math.max(40, Math.min(85, 45 + S * 0.6));
+        mockTitle.style.width = titleW + '%';
+      }
+      if (mockText) {
+        var textW = Math.max(50, Math.min(95, 60 + S * 0.8));
+        mockText.style.width = textW + '%';
+        mockText.style.opacity = String(Math.max(0.5, Math.min(1, 0.5 + S/100)));
+      }
+      if (mockCta) {
+        var scale = Math.max(0.9, Math.min(1.15, 0.9 + (A/100)*0.25));
+        var opacity = Math.max(0.6, Math.min(1, 0.6 + (A/100)*0.4));
+        mockCta.style.transform = 'scale(' + scale + ')';
+        mockCta.style.opacity = String(opacity);
+      }
+    }
+    p.addEventListener('input', function(){ normalize('P'); });
+    s.addEventListener('input', function(){ normalize('S'); });
+    a.addEventListener('input', function(){ normalize('A'); });
+    updateUI(parseInt(p.value,10), parseInt(s.value,10), parseInt(a.value,10));
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', function(){
+        p.value = 60; s.value = 30; a.value = 10;
+        updateUI(60,30,10);
+      });
+    }
+  })();
+
+  // ================= Export Palette =================
+  (function initExport(){
+    var btnCss = document.getElementById('export-css');
+    var btnTw = document.getElementById('export-tailwind');
+    if (!btnCss && !btnTw) return;
+
+    function getVar(name){
+      var v = getComputedStyle(document.body).getPropertyValue(name).trim();
+      return v || '';
+    }
+    function currentVars(){
+      return {
+        '--color-primary': getVar('--color-primary'),
+        '--color-secondary': getVar('--color-secondary'),
+        '--color-accent': getVar('--color-accent'),
+        '--color-accent-hover': getVar('--color-accent-hover'),
+        '--color-accent-ring': getVar('--color-accent-ring'),
+        '--text-primary': getVar('--text-primary'),
+        '--text-on-secondary': getVar('--text-on-secondary'),
+        '--text-on-accent': getVar('--text-on-accent'),
+        '--accent-on-primary': getVar('--accent-on-primary'),
+        '--text-muted': getVar('--text-muted')
+      };
+    }
+    function getRatios(){
+      var p = document.getElementById('ratio-primary');
+      var s = document.getElementById('ratio-secondary');
+      var a = document.getElementById('ratio-accent');
+      return p && s && a ? { primary: p.value, secondary: s.value, accent: a.value } : { primary: '60', secondary: '30', accent: '10' };
+    }
+    function download(filename, content){
+      var blob = new Blob([content], {type: 'text/plain'});
+      var url = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = url; a.download = filename; a.click();
+      URL.revokeObjectURL(url);
+    }
+    function toCss(vars, ratios){
+      var lines = [':root {'];
+      Object.keys(vars).forEach(function(k){ lines.push('  ' + k + ': ' + vars[k] + ';'); });
+      lines.push('  /* ratios */');
+      lines.push('  --ratio-primary: ' + ratios.primary + '%;');
+      lines.push('  --ratio-secondary: ' + ratios.secondary + '%;');
+      lines.push('  --ratio-accent: ' + ratios.accent + '%;');
+      lines.push('}');
+      return lines.join('\n');
+    }
+    function toTailwind(vars){
+      function q(v){ return '\'' + v + '\''; }
+      return (
+        'module.exports = {\n' +
+        '  theme: {\n' +
+        '    extend: {\n' +
+        '      colors: {\n' +
+        '        primary: ' + q(vars['--color-primary']) + ',\n' +
+        '        secondary: ' + q(vars['--color-secondary']) + ',\n' +
+        '        accent: ' + q(vars['--color-accent']) + ',\n' +
+        '        accentHover: ' + q(vars['--color-accent-hover']) + ',\n' +
+        '        accentRing: ' + q(vars['--color-accent-ring']) + '\n' +
+        '      }\n' +
+        '    }\n' +
+        '  }\n' +
+        '};\n'
+      );
+    }
+    if (btnCss) btnCss.addEventListener('click', function(){
+      download('palette.css', toCss(currentVars(), getRatios()));
+    });
+    if (btnTw) btnTw.addEventListener('click', function(){
+      download('tailwind.config.js', toTailwind(currentVars()));
+    });
+  })();
 })();
 
 

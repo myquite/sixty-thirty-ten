@@ -23,9 +23,9 @@
       <div class="container">
         <div class="hero-content">
           <h2 class="hero-title">Design with Intent</h2>
-          <h3 class="learning-goal-title">Learn the 60-30-10 Rule — The Secret to Balanced UI Color Design.</h3>
+          <h3 class="learning-goal-title">Learn the 60-30-10 rule for simple, balanced colors.</h3>
           <p class="lead">
-            This site demonstrates how adjusting the ratio of primary, secondary, and accent colors affects clarity and visual hierarchy.
+            See how changing the mix of colors makes screens clear and easy to use.
           </p>
           <div class="actions">
             <a class="btn btn-accent" href="#">Create Account</a>
@@ -48,60 +48,148 @@
       </div>
     </section>
 
+    
+
+   
+
+    
+
+    
+
+    
+
     <section class="content">
       <div class="container">
-        <h3 class="section-title">Key Principles</h3>
+        <h3 class="section-title">Learn the 60-30-10 Rule</h3>
         <div class="grid">
-          <!-- Component-level 60-30-10 -->
+          <!-- Why ratios matter -->
           <article class="card">
             <div class="card-header">
-              <div class="card-icon">🎨</div>
-              <span class="badge">New</span>
+              <div class="card-icon">💡</div>
+              <span class="badge">Why</span>
             </div>
             <div class="card-content">
-              <h3 class="card-title">Clean, readable UI</h3>
+              <h3 class="card-title">Why ratios matter</h3>
               <p>
-                The primary color fills the surface, secondary handles text and structure,
-                and the accent draws attention to actions.
+                Ratios keep screens calm and clear. Big areas are simple, text is easy to read, and accents guide the eye.
               </p>
               <div class="card-actions">
-                <button class="btn btn-accent">Try it</button>
-                <a class="link-accent" href="#">Details</a>
               </div>
             </div>
           </article>
 
+          <!-- How it works -->
           <article class="card">
             <div class="card-header">
-              <div class="card-icon">⚖️</div>
-              <span class="badge">Tip</span>
+              <div class="card-icon">📏</div>
+              <span class="badge">How</span>
             </div>
             <div class="card-content">
-              <h3 class="card-title">Stay disciplined</h3>
+              <h3 class="card-title">How it works</h3>
               <p>
-                If everything is accented, nothing stands out. Keep accents to ~10% of the visual area.
+                Use about 60% primary (background), 30% secondary (text/lines), and 10% accent (buttons/links).
               </p>
               <div class="card-actions">
-                <button class="btn btn-accent">See examples</button>
               </div>
             </div>
           </article>
 
+          <!-- See it applied -->
           <article class="card">
             <div class="card-header">
-              <div class="card-icon">🎯</div>
-              <span class="badge">Best Practice</span>
+              <div class="card-icon">🖼️</div>
+              <span class="badge">See</span>
             </div>
             <div class="card-content">
-              <h3 class="card-title">Visual hierarchy</h3>
+              <h3 class="card-title">See it applied</h3>
               <p>
-                Use the 60-30-10 rule to create clear visual hierarchy and guide user attention effectively.
+                Compare a real UI with a color map that shows the 60/30/10 split.
               </p>
               <div class="card-actions">
-                <button class="btn btn-accent">Learn more</button>
+                <a class="link-accent" href="#ratio-demo-title">Open demo →</a>
               </div>
             </div>
           </article>
+
+          <!-- Try it yourself -->
+          <article class="card">
+            <div class="card-header">
+              <div class="card-icon">🛠️</div>
+              <span class="badge">Try</span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Try it yourself</h3>
+              <p>
+                Pick colors with the Theme Designer and move the sliders to change the mix.
+              </p>
+              <div class="card-actions">
+                <a class="link-accent" href="#ratio-demo-title">Go to sliders →</a>
+                <a class="link-accent" href="#designer-toggle">Open designer →</a>
+              </div>
+            </div>
+          </article>
+
+          <!-- Save your palette -->
+          <article class="card">
+            <div class="card-header">
+              <div class="card-icon">💾</div>
+              <span class="badge">Save</span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Save your palette</h3>
+              <p>
+                Export your colors as CSS and use them in your project.
+              </p>
+              <div class="card-actions">
+                <button id="export-css" class="btn">Export CSS</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+     <!-- Interactive Color Ratio Demonstrator -->
+     <section class="ratio-demo" aria-labelledby="ratio-demo-title">
+      <div class="container">
+        <h3 id="ratio-demo-title" class="section-title">Interactive Color Ratio Demonstrator</h3>
+        <div class="ratio-grid">
+          <div class="ratio-controls">
+            <div class="slider-field">
+              <label for="ratio-primary"><strong>Primary</strong> <span id="ratio-primary-value">60%</span></label>
+              <input type="range" id="ratio-primary" min="0" max="100" value="60" step="1" aria-describedby="ratio-help">
+            </div>
+            <div class="slider-field">
+              <label for="ratio-secondary"><strong>Secondary</strong> <span id="ratio-secondary-value">30%</span></label>
+              <input type="range" id="ratio-secondary" min="0" max="100" value="30" step="1" aria-describedby="ratio-help">
+            </div>
+            <div class="slider-field">
+              <label for="ratio-accent"><strong>Accent</strong> <span id="ratio-accent-value">10%</span></label>
+              <input type="range" id="ratio-accent" min="0" max="100" value="10" step="1" aria-describedby="ratio-help">
+            </div>
+            <small id="ratio-help">Sliders always sum to 100%.</small>
+            <div class="designer-actions">
+              <button type="button" id="ratio-reset" class="btn">Reset ratios</button>
+            </div>
+          </div>
+          <div class="ratio-preview">
+            <div class="ratio-bar">
+              <div class="ratio-seg primary" style="width:60%"><span>Primary</span></div>
+              <div class="ratio-seg secondary" style="width:30%"><span>Secondary</span></div>
+              <div class="ratio-seg accent" style="width:10%"><span>Accent</span></div>
+            </div>
+            <div class="ratio-mock">
+              <div class="mock-surface">
+                <div class="mock-header"></div>
+                <div class="mock-body">
+                  <div class="mock-title"></div>
+                  <div class="mock-text"></div>
+                  <div class="mock-cta btn btn-accent">Call to action</div>
+                </div>
+              </div>
+            </div>
+            
+          </div>
         </div>
       </div>
     </section>
