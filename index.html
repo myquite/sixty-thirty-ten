@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>60-30-10 UI Example</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="theme-light">
+  <header class="site-header">
+    <div class="container">
+      <h1 class="brand">Product</h1>
+      <nav class="nav">
+        <a href="#" class="nav-link">Features</a>
+        <a href="#" class="nav-link">Pricing</a>
+        <button id="theme-toggle" class="theme-toggle" aria-label="Toggle dark mode">🌙</button>
+        <a href="#" class="btn btn-accent">Get Started</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content">
+          <h2 class="hero-title">Design with Intent</h2>
+          <p class="lead">
+            Apply the 60–30–10 color rule for instant visual harmony. One dominant, one support, one standout.
+          </p>
+          <div class="actions">
+            <a class="btn btn-accent" href="#">Create Account</a>
+            <a class="link-accent" href="#">Learn more →</a>
+          </div>
+        </div>
+        <div class="hero-visual">
+          <div class="color-demo">
+            <div class="color-block primary-demo">
+              <span class="color-label">60% Primary</span>
+            </div>
+            <div class="color-block secondary-demo">
+              <span class="color-label">30% Secondary</span>
+            </div>
+            <div class="color-block accent-demo">
+              <span class="color-label">10% Accent</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="content">
+      <div class="container">
+        <h3 class="section-title">Key Principles</h3>
+        <div class="grid">
+          <!-- Component-level 60-30-10 -->
+          <article class="card">
+            <div class="card-header">
+              <div class="card-icon">🎨</div>
+              <span class="badge">New</span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Clean, readable UI</h3>
+              <p>
+                The primary color fills the surface, secondary handles text and structure,
+                and the accent draws attention to actions.
+              </p>
+              <div class="card-actions">
+                <button class="btn btn-accent">Try it</button>
+                <a class="link-accent" href="#">Details</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-icon">⚖️</div>
+              <span class="badge">Tip</span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Stay disciplined</h3>
+              <p>
+                If everything is accented, nothing stands out. Keep accents to ~10% of the visual area.
+              </p>
+              <div class="card-actions">
+                <button class="btn btn-accent">See examples</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="card-header">
+              <div class="card-icon">🎯</div>
+              <span class="badge">Best Practice</span>
+            </div>
+            <div class="card-content">
+              <h3 class="card-title">Visual hierarchy</h3>
+              <p>
+                Use the 60-30-10 rule to create clear visual hierarchy and guide user attention effectively.
+              </p>
+              <div class="card-actions">
+                <button class="btn btn-accent">Learn more</button>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© 2025 Product Co.</small>
+      <a class="link-accent" href="#">Contact</a>
+    </div>
+  </footer>
+  
+  <!-- Design Sidebar Toggle Button -->
+  <button id="designer-toggle" class="designer-fab" aria-expanded="false" aria-controls="designer-panel" title="Open design controls">🎛️</button>
+
+  <!-- Design Sidebar Panel -->
+  <aside id="designer-panel" class="designer-panel" aria-hidden="true">
+    <div class="designer-header">
+      <strong>Theme Designer</strong>
+      <button id="designer-close" class="designer-close" aria-label="Close design panel">✕</button>
+    </div>
+    <div class="designer-body">
+      <p class="designer-hint">Adjust the primary (60%), secondary (30%), and accent (10%) colors. Changes are saved per theme.</p>
+      <form id="designer-form" class="designer-form" autocomplete="off">
+        <label class="designer-field">
+          <span>Primary</span>
+          <input type="color" id="color-primary" name="color-primary" value="#F7F8FA" />
+        </label>
+        <label class="designer-field">
+          <span>Secondary</span>
+          <input type="color" id="color-secondary" name="color-secondary" value="#111827" />
+        </label>
+        <label class="designer-field">
+          <span>Accent</span>
+          <input type="color" id="color-accent" name="color-accent" value="#EF4444" />
+        </label>
+        <label class="designer-field">
+          <span>Accent Hover (auto)</span>
+          <input type="color" id="color-accent-hover" name="color-accent-hover" value="#DC2626" disabled />
+        </label>
+        <label class="designer-field">
+          <span>Accent Ring (auto)</span>
+          <input type="color" id="color-accent-ring" name="color-accent-ring" value="#FCA5A5" disabled />
+        </label>
+        <div class="designer-actions">
+          <button type="button" id="designer-reset" class="btn">Reset theme colors</button>
+        </div>
+      </form>
+    </div>
+  </aside>
+  <script src="scripts.js"></script>
+</body>
+</html>
